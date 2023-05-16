@@ -22,8 +22,10 @@ Given
   Browsed to the login page through "online banking login"
   and input valid user name
   and input valid password
+  
 When 
   The "Login" button is clicked
+  
 Then
   It must browse to the "MyAccount" page
 ```
@@ -34,8 +36,10 @@ Given
   Browsed to the login page through "online banking login"
   and input a user name which is not in the system
   and input a password
+  
 When 
   The "Login" button is clicked
+  
 Then
   It must display a message that the login is unsuccessful
 ```
@@ -47,11 +51,12 @@ Then
 Given 
   Browsed to the my account page
   and eligible to apply for a gold visa card
-    
+      
 When 
   Clicked on the "apply" link
   and enter valid password
-  and click on submit    
+  and click on submit
+      
 Then
   It must display message that the visa card will be sent through mail
 ```
