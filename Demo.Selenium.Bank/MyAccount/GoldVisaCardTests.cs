@@ -17,8 +17,8 @@ public class GoldVisaCardTests : IDisposable
     {
         var homePage = new HomePage(_driver, @"http://demo.testfire.net/");
         var loginPage = homePage.GoToOnlineBankingLogin();
-        var mainPage = loginPage.LoginWithValidCredentials("admin'--", "blah");
-        var goldVisaPage = mainPage.BrowseToApplyForGoldVisa();
+        var myAccountPage = loginPage.LoginWithValidCredentials("admin'--", "blah");
+        var goldVisaPage = myAccountPage.BrowseToApplyForGoldVisa();
         goldVisaPage.Apply();
         goldVisaPage.IsVisaAccepted().Should().BeTrue();
     }

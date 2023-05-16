@@ -17,8 +17,8 @@ public class LoginTests : IDisposable
     {
         var homePage = new HomePage(_driver, @"http://demo.testfire.net/");
         var loginPage = homePage.GoToOnlineBankingLogin();
-        var mainPage = loginPage.LoginWithValidCredentials("admin'--", "blah");
-        mainPage.IsSuccessfullyLoggedIn().Should().BeTrue();
+        var myAccountPage = loginPage.LoginWithValidCredentials("admin'--", "blah");
+        myAccountPage.IsSuccessfullyLoggedIn().Should().BeTrue();
     }
 
     [Fact(DisplayName = "Unsuccessful login")]
