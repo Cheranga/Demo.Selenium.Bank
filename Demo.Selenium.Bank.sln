@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Selenium.Bank", "Demo.Selenium.Bank\Demo.Selenium.Bank.csproj", "{73AA45D3-33B2-4E69-84FD-B0CE17F8DE33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Selenium.Bank", "src\Demo.Selenium.Bank\Demo.Selenium.Bank.csproj", "{73AA45D3-33B2-4E69-84FD-B0CE17F8DE33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
