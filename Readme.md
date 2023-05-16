@@ -11,6 +11,7 @@
 ## TODO
 * Use `Specflow`.
 * Use `configuration` to target multiple environments.
+* Add CI/CD pipeline.
 
 ## Features
 
