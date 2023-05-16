@@ -1,0 +1,32 @@
+﻿namespace Demo.Selenium.Bank.Login;
+
+public class LoginTests : IDisposable
+{
+    private readonly IWebDriver _driver;
+
+    public LoginTests() => _driver = new ChromeDriver();
+
+    public void Dispose()
+    {
+        _driver.Close();
+        _driver.Dispose();
+    }
+
+    [Fact(DisplayName = "Successful login")]
+    public void SuccessfulLogin()
+    {
+        var homePage = new HomePage(_driver, @"http://demo.testfire.net/");
+        var loginPage = homePage.GoToOnlineBankingLogin();
+        var mainPage = loginPage.LoginWithValidCredentials("admin'--", "blah");
+        mainPage.IsSuccessfullyLoggedIn().Should().BeTrue();
+    }
+
+    [Fact(DisplayName = "Unsuccessful login")]
+    public void UnsuccessfulLogin()
+    {
+        var homePage = new HomePage(_driver, @"http://demo.testfire.net/");
+        var loginPage = homePage.GoToOnlineBankingLogin();
+        loginPage.LoginWithInvalidCredentials("abc", "xyz");
+        loginPage.IsLoginUnsuccessful().Should().BeTrue();
+    }
+}
