@@ -25,4 +25,11 @@ jobs:
       - name: Install dependencies
         run: dotnet restore src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
       - name: Build
-        run: dotnet build --configuration Release --no-restore src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj            
+        run: dotnet build --configuration Release --no-restore src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
+      - uses: actions/upload-artifact@v2
+        if: success() || failure()
+        with:
+          name: test-results-${{ matrix.project-name }}
+          path: '**/test-results.trx'          
