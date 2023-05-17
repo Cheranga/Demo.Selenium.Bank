@@ -4,7 +4,12 @@ public class GoldVisaCardTests : IDisposable
 {
     private readonly IWebDriver _driver;
 
-    public GoldVisaCardTests() => _driver = new ChromeDriver();
+    public GoldVisaCardTests()
+    {
+        var options = new ChromeOptions();
+        options.AddArgument("--headless");
+        _driver = new ChromeDriver(options);
+    }
 
     public void Dispose()
     {

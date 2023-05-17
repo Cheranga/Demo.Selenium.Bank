@@ -4,7 +4,12 @@ public class LoginTests : IDisposable
 {
     private readonly IWebDriver _driver;
 
-    public LoginTests() => _driver = new ChromeDriver();
+    public LoginTests()
+    {
+        var options = new ChromeOptions();
+        options.AddArgument("--headless");
+        _driver = new ChromeDriver(options);
+    }
 
     public void Dispose()
     {
