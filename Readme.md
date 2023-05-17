@@ -9,6 +9,17 @@
 * Install `SeleniumExtras.WaitHelpers`. This includes a lot of useful methods to be used when finding elements safely.
 * Install `FluentAssertions`. This helps us to write clean and readable assertions in tests.
 
+## How to?
+* If you would like to run the tests without UI, it can be done using the `headless` mode, in each browser version.
+```csharp
+public LoginTests()
+{
+    var options = new ChromeOptions();
+    options.AddArgument("--headless");
+    _driver = new ChromeDriver(options);
+}
+```
+
 ## TODO
 * Use `Specflow`.
 * Use `configuration` to target multiple environments.
