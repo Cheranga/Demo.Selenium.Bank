@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         project-name:
@@ -22,6 +22,8 @@ jobs:
         with:
           dotnet-version: |
             6.0.x
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1        
       - name: Install dependencies
         run: dotnet restore src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
       - name: Build
