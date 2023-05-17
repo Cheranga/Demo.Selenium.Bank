@@ -6,6 +6,7 @@
 
 ## Install nuget packages
 * Install `Selenium.WebDriver`. This include all the selenium functionality to be used in the tests.
+* Install `SeleniumExtras.WaitHelpers`. This includes a lot of useful methods to be used when finding elements safely.
 * Install `FluentAssertions`. This helps us to write clean and readable assertions in tests.
 
 ## TODO
