@@ -8,13 +8,13 @@ on:
   pull_request:
     branches: [ 'main' ]
 
+env:
+  PROJECT_NAME: 'Demo.Selenium.Bank'
+    
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        project-name:
-          - Demo.Selenium.Bank
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
@@ -25,13 +25,16 @@ jobs:
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1        
       - name: Install dependencies
-        run: dotnet restore src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
+        run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
       - name: Build
-        run: dotnet build --configuration Release --no-restore src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
-      - name: Test
-        run: dotnet test --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
-      - uses: actions/upload-artifact@v2
-        if: success() || failure()
-        with:
-          name: test-results-${{ matrix.project-name }}
-          path: '**/test-results.trx'          
+        run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+
+  DEV:    
+    name: DEV
+    needs: build
+    uses: ./.github/workflows/run-tests.yml
+    with:
+      projectName: ${{ env.PROJECT_NAME }}
+      environment: dev
+      
+      

@@ -20,6 +20,16 @@ public LoginTests()
 }
 ```
 
+* When running the tests with dynamic configurations, you can use the dotnet CLI. This can be used when running the tests through a build pipeline.
+
+```shell
+# Strategy A
+dotnet test -e ApiSettings__BaseUrl="http://demo.testfire.net/"
+
+# Strategy B
+dotnet test -e ApiSettings:BaseUrl="http://demo.testfire.net/"
+```
+
 ## TODO
 * Use `Specflow`.
 * Use `configuration` to target multiple environments.
