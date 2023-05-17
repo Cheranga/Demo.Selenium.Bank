@@ -13,51 +13,36 @@ env:
     
 
 jobs:
-  build:
+  installations:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+  DEV:
+    name: DEV
+    needs: installations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout      
+        uses: actions/checkout@v3
+
+      - name: Setup .NET     
+        uses: actions/setup-dotnet@v3   
         with:
           dotnet-version: |
-            6.0.x
-
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@v1        
+            6.0.x      
 
       - name: Install dependencies
-        run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
-        
+        run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj 
       - name: Build
         run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
 
-#  DEV:
-#    name: DEV
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout      
-#        uses: actions/checkout@v3
-#
-#      - name: Setup .NET     
-#        uses: actions/setup-dotnet@v3   
-#        with:
-#          dotnet-version: |
-#            6.0.x      
-#
-#      - name: Install dependencies
-#        run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj 
-#      - name: Build
-#        run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
-#
-#      - name: Run Tests
-#        uses: ./run-tests.yml
-#        with:
-#          projectName: ${{ env.PROJECT_NAME }} 
-#          environment: dev
-#
-#    
-#      
-#      
+      - name: Run Tests
+        uses: ./run-tests.yml
+        with:
+          projectName: ${{ env.PROJECT_NAME }} 
+          environment: dev
+
+
+
