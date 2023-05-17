@@ -29,12 +29,31 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
 
-  DEV:    
+  DEV:
     name: DEV
     needs: build
-    uses: ./.github/workflows/run-tests.yml
-    with:
-      projectName: Demo.Selenium.Bank
-      environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout      
+        uses: actions/checkout@v3
+
+      - name: Setup .NET     
+        uses: actions/setup-dotnet@v3   
+        with:
+          dotnet-version: |
+            6.0.x      
+
+      - name: Install dependencies
+        run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj 
+      - name: Build
+        run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+
+      - name: Run Tests
+        uses: ./.github/workflows/run-tests.yml
+        with:
+          projectName: ${{ env.PROJECT_NAME }} 
+          environment: dev
+
+    
       
       
