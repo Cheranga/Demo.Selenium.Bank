@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         project-name:
@@ -26,6 +26,10 @@ jobs:
         run: dotnet restore src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
       - name: Build
         run: dotnet build --configuration Release --no-restore src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable        
       - name: Test
         run: dotnet test --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ matrix.project-name }}/${{ matrix.project-name }}.csproj
       - uses: actions/upload-artifact@v2
