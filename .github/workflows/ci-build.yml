@@ -34,7 +34,7 @@ jobs:
     needs: build
     uses: ./.github/workflows/run-tests.yml
     with:
-      projectName: ${{ env.PROJECT_NAME }}
+      projectName: Demo.Selenium.Bank
       environment: dev
       
       
