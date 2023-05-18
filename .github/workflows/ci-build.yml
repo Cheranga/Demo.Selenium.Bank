@@ -66,7 +66,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
 
       - name: Tests
-        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} -e ApiSettings__UserName=${{ secrets.USERNAME }} -e ApiSettings__Password=${{ secrets.PASSWORD }} --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
 
   UAT:
       name: UAT

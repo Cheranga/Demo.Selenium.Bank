@@ -1,31 +1,36 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Xunit.Abstractions;
 
 namespace Demo.Selenium.Bank;
 
 public class TestInitializer : IClassFixture<TestInitializer>
 {
-    public IServiceProvider ServiceProvider { get; }
     public TestInitializer()
     {
         var host = Host.CreateDefaultBuilder()
-            .ConfigureServices((context, services) =>
-            {
-                var apiSettings = context.Configuration.GetSection(nameof(ApiSettings)).Get<ApiSettings>();
-                services.AddSingleton(apiSettings!);
-            })
+            .ConfigureServices(
+                (context, services) =>
+                {
+                    var apiSettings = context.Configuration
+                        .GetSection(nameof(ApiSettings))
+                        .Get<ApiSettings>();
+                    services.AddSingleton(apiSettings!);
+                }
+            )
             .ConfigureAppConfiguration(builder =>
             {
-                builder.AddJsonFile("appsettings.json", false);
-                builder.AddEnvironmentVariables();
+                builder
+                    .AddUserSecrets(typeof(TestInitializer).Assembly)
+                    .AddJsonFile("appsettings.json", false)
+                    .AddEnvironmentVariables();
             })
             .Build();
-        
+
         ServiceProvider = host.Services;
-        
     }
+
+    public IServiceProvider ServiceProvider { get; }
 }
 
 [CollectionDefinition(Name)]

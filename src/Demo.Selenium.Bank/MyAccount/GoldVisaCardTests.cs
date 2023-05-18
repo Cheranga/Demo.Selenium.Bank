@@ -1,14 +1,21 @@
-﻿namespace Demo.Selenium.Bank.MyAccount;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Xunit.Abstractions;
 
-public class GoldVisaCardTests : IDisposable
+namespace Demo.Selenium.Bank.MyAccount;
+
+public class GoldVisaCardTests : IDisposable, IClassFixture<TestInitializer>
 {
+    private readonly ApiSettings _apiSettings;
     private readonly IWebDriver _driver;
+    private readonly ITestOutputHelper _logger;
 
-    public GoldVisaCardTests()
+    public GoldVisaCardTests(TestInitializer initializer, ITestOutputHelper logger)
     {
         var options = new ChromeOptions();
         options.AddArgument("--headless");
         _driver = new ChromeDriver(options);
+        _apiSettings = initializer.ServiceProvider.GetRequiredService<ApiSettings>();
+        _logger = logger;
     }
 
     public void Dispose()
@@ -20,11 +27,15 @@ public class GoldVisaCardTests : IDisposable
     [Fact(DisplayName = "Applying for GOLD Visa")]
     public void ApplyForGoldVisa()
     {
-        var homePage = new HomePage(_driver, @"http://demo.testfire.net/");
+        var homePage = new HomePage(_driver, _apiSettings.BaseUrl);
         var loginPage = homePage.GoToOnlineBankingLogin();
-        var myAccountPage = loginPage.LoginWithValidCredentials("admin'--", "blah");
+        var myAccountPage = loginPage.LoginWithValidCredentials(
+            _apiSettings.UserName,
+            _apiSettings.Password
+        );
         var goldVisaPage = myAccountPage.BrowseToApplyForGoldVisa();
         goldVisaPage.Apply();
         goldVisaPage.IsVisaAccepted().Should().BeTrue();
+        _logger.WriteLine($"{nameof(ApplyForGoldVisa)} success");
     }
 }
