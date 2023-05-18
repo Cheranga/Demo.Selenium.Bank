@@ -39,7 +39,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
 
       - name: Run Tests
-        uses: ./run-tests.yml
+        uses: ./github/workflows/run-tests.yml
         with:
           projectName: ${{ env.PROJECT_NAME }} 
           environment: dev
