@@ -6,25 +6,26 @@ on:
       projectName:
         required: true
         type: string
-      baseUrl:
+      environment:        
         required: true
         type: string
-    secrets:
-      userName:
-        required: true
-      password:
-        required: true
 
 jobs:
   rundotnettests:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: |
-            6.0.x      
-      
+            6.0.x
+            
       - name: Install dependencies
         run: dotnet restore src/${{ inputs.projectName }}/${{ inputs.projectName }}.csproj
 
@@ -32,8 +33,8 @@ jobs:
         run: dotnet build --configuration Release --no-restore src/${{ inputs.projectName }}/${{ inputs.projectName }}.csproj
 
       - name: Tests
-        run: dotnet test -e ApiSettings__BaseUrl=${{ inputs.baseUrl }} -e ApiSettings__UserName="${{ secrets.userName }}" -e ApiSettings__Password="${{ secrets.password }}" --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ inputs.projectName }}/${{ inputs.projectName }}.csproj
-
+        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} -e ApiSettings__UserName="${{ secrets.USERNAME }}" -e ApiSettings__Password="${{ secrets.PASSWORD }}" --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ inputs.projectName }}/${{ inputs.projectName }}.csproj
+      
       - uses: actions/upload-artifact@v2
         if: success() || failure()
         with:

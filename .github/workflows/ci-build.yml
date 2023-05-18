@@ -20,21 +20,27 @@ jobs:
         uses: browser-actions/setup-chrome@v1
 
   SND:
-    name: SND
-    needs: installations
-    runs-on: ubuntu-latest
-    environment: snd    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2      
+    name: SND    
+    needs: installations    
+    uses: ./.github/workflows/run-tests.yml
+    with:
+      projectName: Demo.Selenium.Bank
+      environment: snd
 
-      - name: Run Tests
-        uses: ./.github/workflows/run-tests.yml
-        with:
-          projectName: ${{ env.PROJECT_NAME }}
-          baseUrl: ${{ vars.APISETTINGSBASEURL }}
-          userName: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+    
+    
+    
+    # steps:
+    #   - name: Checkout
+    #     uses: actions/checkout@v3     
+
+    #   - name: Run Tests
+    #     uses: ./.github/workflows/run-tests.yml
+    #     with:
+    #       projectName: ${{ env.PROJECT_NAME }}
+    #       baseUrl: ${{ vars.APISETTINGSBASEURL }}
+    #       userName: ${{ secrets.USERNAME }}
+    #       password: ${{ secrets.PASSWORD }}
         
 
 
