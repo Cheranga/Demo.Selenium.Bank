@@ -12,10 +12,8 @@ on:
     secrets:
       userName:
         required: true
-        type: string
       password:
         required: true
-        type: string
 
 jobs:
   rundotnettests:
