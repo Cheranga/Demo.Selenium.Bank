@@ -1,10 +1,9 @@
-name: "CI Build"
+name: "PR Build"
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  pull_request:
+    branches: [ 'main' ]
 
 jobs:
   installations:
@@ -31,28 +30,6 @@ jobs:
     with:
       projectName: Demo.Selenium.Bank
       environment: dev
-    secrets:
-      userName: ${{ secrets.USERNAME }}
-      password: ${{ secrets.PASSWORD }}
-  
-  SIT:
-    name: SIT
-    needs: [ SND, DEV ]
-    uses: ./.github/workflows/run-tests.yml
-    with:
-      projectName: Demo.Selenium.Bank
-      environment: sit
-    secrets:
-      userName: ${{ secrets.USERNAME }}
-      password: ${{ secrets.PASSWORD }}
-
-  UAT:
-    name: UAT
-    needs: [ SIT ]
-    uses: ./.github/workflows/run-tests.yml
-    with:
-      projectName: Demo.Selenium.Bank
-      environment: uat
     secrets:
       userName: ${{ secrets.USERNAME }}
       password: ${{ secrets.PASSWORD }}
