@@ -21,9 +21,8 @@ jobs:
 
   SND:
     name: SND    
-    needs: installations
-    environment: snd
-    uses: ./.github/workflows/run-tests.yml
+    needs: installations    
+    uses: ./.github/workflows/run-tests.yml    
     with:
       projectName: Demo.Selenium.Bank
       environment: snd
