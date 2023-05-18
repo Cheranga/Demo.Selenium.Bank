@@ -3,7 +3,8 @@ using Xunit.Abstractions;
 
 namespace Demo.Selenium.Bank.MyAccount;
 
-public class GoldVisaCardTests : IDisposable, IClassFixture<TestInitializer>
+[Collection(TestCollection.Name)]
+public class GoldVisaCardTests : IDisposable
 {
     private readonly ApiSettings _apiSettings;
     private readonly IWebDriver _driver;

@@ -3,7 +3,8 @@ using Xunit.Abstractions;
 
 namespace Demo.Selenium.Bank.Login;
 
-public class LoginTests : IDisposable, IClassFixture<TestInitializer>
+[Collection(TestCollection.Name)]
+public class LoginTests : IDisposable
 {
     private readonly ApiSettings _apiSettings;
     private readonly IWebDriver _driver;
