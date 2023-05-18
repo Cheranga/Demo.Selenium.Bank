@@ -67,3 +67,53 @@ jobs:
 
       - name: Tests
         run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+
+  UAT:
+      name: UAT
+      needs: [SND, DEV]
+      runs-on: ubuntu-latest
+      environment: uat
+      steps:
+        - name: Checkout      
+          uses: actions/checkout@v3
+
+        - name: Setup .NET     
+          uses: actions/setup-dotnet@v3   
+          with:
+            dotnet-version: |
+              6.0.x      
+
+        - name: Install dependencies
+          run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj 
+          
+        - name: Build
+          run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+
+        - name: Tests
+          run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+
+  SIT:
+    name: SIT
+    needs: [UAT]
+    runs-on: ubuntu-latest
+    environment: sit
+    steps:
+      - name: Checkout      
+        uses: actions/checkout@v3
+
+      - name: Setup .NET     
+        uses: actions/setup-dotnet@v3   
+        with:
+          dotnet-version: |
+            6.0.x      
+
+      - name: Install dependencies
+        run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj 
+        
+      - name: Build
+        run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+
+      - name: Tests
+        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+      
+        
