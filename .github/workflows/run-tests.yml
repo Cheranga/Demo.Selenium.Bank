@@ -9,6 +9,13 @@ on:
       environment:        
         required: true
         type: string
+    secrets:
+      userName:
+        required: true
+        type: string
+      password:
+        required: true
+        type: string
 
 jobs:
   rundotnettests:
@@ -33,7 +40,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore src/${{ inputs.projectName }}/${{ inputs.projectName }}.csproj
 
       - name: Tests
-        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} -e ApiSettings__UserName="${{ vars.secrets.USERNAME }}" -e ApiSettings__Password="${{ vars.secrets.PASSWORD }}" --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ inputs.projectName }}/${{ inputs.projectName }}.csproj
+        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} -e ApiSettings__UserName="${{ secrets.USERNAME }}" -e ApiSettings__Password="${{ secrets.PASSWORD }}" --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ inputs.projectName }}/${{ inputs.projectName }}.csproj
       
       - uses: actions/upload-artifact@v2
         if: success() || failure()

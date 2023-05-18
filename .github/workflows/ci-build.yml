@@ -21,11 +21,15 @@ jobs:
 
   SND:
     name: SND    
-    needs: installations    
+    needs: installations
+    environment: snd
     uses: ./.github/workflows/run-tests.yml
     with:
       projectName: Demo.Selenium.Bank
       environment: snd
+    secrets:
+      userName: ${{ secrets.USERNAME }}
+      password: ${{ secrets.PASSWORD }}
 
     
     
