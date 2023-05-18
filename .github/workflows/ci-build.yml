@@ -29,47 +29,42 @@ jobs:
     secrets:
       userName: ${{ secrets.USERNAME }}
       password: ${{ secrets.PASSWORD }}
-
-    
-    
-    
-    # steps:
-    #   - name: Checkout
-    #     uses: actions/checkout@v3     
-
-    #   - name: Run Tests
-    #     uses: ./.github/workflows/run-tests.yml
-    #     with:
-    #       projectName: ${{ env.PROJECT_NAME }}
-    #       baseUrl: ${{ vars.APISETTINGSBASEURL }}
-    #       userName: ${{ secrets.USERNAME }}
-    #       password: ${{ secrets.PASSWORD }}
-        
-
-
+      
   DEV:
     name: DEV
     needs: installations
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - name: Checkout      
-        uses: actions/checkout@v3
+    uses: ./.github/workflows/run-tests.yml
+    with:
+      projectName: Demo.Selenium.Bank
+      environment: dev
+    secrets:
+      userName: ${{ secrets.USERNAME }}
+      password: ${{ secrets.PASSWORD }}      
 
-      - name: Setup .NET     
-        uses: actions/setup-dotnet@v3   
-        with:
-          dotnet-version: |
-            6.0.x      
 
-      - name: Install dependencies
-        run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj 
-        
-      - name: Build
-        run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
-
-      - name: Tests
-        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} -e ApiSettings__UserName="${{ secrets.USERNAME }}" -e ApiSettings__Password="${{ secrets.PASSWORD }}" --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+#  DEV:
+#    name: DEV
+#    needs: installations
+#    runs-on: ubuntu-latest
+#    environment: dev
+#    steps:
+#      - name: Checkout      
+#        uses: actions/checkout@v3
+#
+#      - name: Setup .NET     
+#        uses: actions/setup-dotnet@v3   
+#        with:
+#          dotnet-version: |
+#            6.0.x      
+#
+#      - name: Install dependencies
+#        run: dotnet restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj 
+#        
+#      - name: Build
+#        run: dotnet build --configuration Release --no-restore src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+#
+#      - name: Tests
+#        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} -e ApiSettings__UserName="${{ secrets.USERNAME }}" -e ApiSettings__Password="${{ secrets.PASSWORD }}" --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
 
   UAT:
       name: UAT
