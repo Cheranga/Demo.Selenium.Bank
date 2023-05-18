@@ -9,6 +9,27 @@
 * Install `SeleniumExtras.WaitHelpers`. This includes a lot of useful methods to be used when finding elements safely.
 * Install `FluentAssertions`. This helps us to write clean and readable assertions in tests.
 
+## How to?
+* If you would like to run the tests without UI, it can be done using the `headless` mode, in each browser version.
+```csharp
+public LoginTests()
+{
+    var options = new ChromeOptions();
+    options.AddArgument("--headless");
+    _driver = new ChromeDriver(options);
+}
+```
+
+* When running the tests with dynamic configurations, you can use the dotnet CLI. This can be used when running the tests through a build pipeline.
+
+```shell
+# Strategy A
+dotnet test -e ApiSettings__BaseUrl="http://demo.testfire.net/"
+
+# Strategy B
+dotnet test -e ApiSettings:BaseUrl="http://demo.testfire.net/"
+```
+
 ## TODO
 * Use `Specflow`.
 * Use `configuration` to target multiple environments.

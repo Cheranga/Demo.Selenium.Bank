@@ -1,0 +1,31 @@
+name: runtests
+
+on:
+  workflow_call:
+    inputs:
+      projectName:
+        required: true
+        type: string
+      environment:        
+          required: true
+          type: string
+
+jobs:
+  rundotnettests:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+
+    steps:
+      - name: Tests
+        run: dotnet test -e ApiSettings__BaseUrl=${{ vars.APISETTINGSBASEURL }} --no-restore --verbosity normal --logger "trx;LogFileName=test-results.trx" src/${{ inputs.projectName }}/${{ inputs.projectName }}.csproj
+      - uses: actions/upload-artifact@v2
+        if: success() || failure()
+        with:
+          name: test-results-${{ inputs.projectName }}
+          path: '**/test-results.trx'    
+
+        
+        
+
+    
