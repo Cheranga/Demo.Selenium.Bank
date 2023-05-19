@@ -23,7 +23,7 @@ public class GoldVisaPage
             && label.Text.StartsWith("Your new Altoro Mutual Gold VISA");
     }
 
-    private void EnterPassword()
+    private void EnterPassword(string password)
     {
         var passwordText = _wait.Until(
             ExpectedConditions.ElementExists(By.XPath("//input[@type='password']"))
@@ -42,9 +42,9 @@ public class GoldVisaPage
         applyButton.Click();
     }
 
-    public void Apply()
+    public void Apply(string password)
     {
-        EnterPassword();
+        EnterPassword(password);
         ClickApply();
     }
 }
