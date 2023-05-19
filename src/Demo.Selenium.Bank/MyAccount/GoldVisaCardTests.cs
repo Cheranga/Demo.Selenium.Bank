@@ -35,7 +35,7 @@ public class GoldVisaCardTests : IDisposable
             _apiSettings.Password
         );
         var goldVisaPage = myAccountPage.BrowseToApplyForGoldVisa();
-        goldVisaPage.Apply();
+        goldVisaPage.Apply(_apiSettings.Password);
         goldVisaPage.IsVisaAccepted().Should().BeTrue();
         _logger.WriteLine($"{nameof(ApplyForGoldVisa)} success");
     }
